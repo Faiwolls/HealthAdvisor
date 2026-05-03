@@ -22,5 +22,16 @@ namespace HealthAdvisorTests
             Assert::AreEqual(22.86, advisor.CalculateBMI(70.0, 1.75), 0.01);
             Assert::AreEqual(19.53, advisor.CalculateBMI(50.0, 1.60), 0.01);
         }
+
+        TEST_METHOD(BmiCategory)
+        {
+            HealthAdvisor advisor;
+            Assert::AreEqual("Недостаточный вес", advisor.GetBmiCategory(18.4).c_str());
+            Assert::AreEqual("Нормальный вес", advisor.GetBmiCategory(18.5).c_str());
+            Assert::AreEqual("Нормальный вес", advisor.GetBmiCategory(24.9).c_str());
+            Assert::AreEqual("Избыточный вес", advisor.GetBmiCategory(25.0).c_str());
+            Assert::AreEqual("Избыточный вес", advisor.GetBmiCategory(29.9).c_str());
+            Assert::AreEqual("Ожирение", advisor.GetBmiCategory(30.0).c_str());
+        }
     };
 }
