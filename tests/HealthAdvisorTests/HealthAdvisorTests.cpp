@@ -33,5 +33,14 @@ namespace HealthAdvisorTests
             Assert::AreEqual("Избыточный вес", advisor.GetBmiCategory(29.9).c_str());
             Assert::AreEqual("Ожирение", advisor.GetBmiCategory(30.0).c_str());
         }
+
+        TEST_METHOD(PulseCategory)
+        {
+            HealthAdvisor advisor;
+            Assert::AreEqual("Низкий пульс", advisor.GetPulseCategory(50).c_str());
+            Assert::AreEqual("Нормальный пульс", advisor.GetPulseCategory(60).c_str());
+            Assert::AreEqual("Нормальный пульс", advisor.GetPulseCategory(100).c_str());
+            Assert::AreEqual("Высокий пульс", advisor.GetPulseCategory(101).c_str());
+        }
     };
 }

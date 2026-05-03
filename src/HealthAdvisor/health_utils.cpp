@@ -10,3 +10,9 @@ std::string HealthAdvisor::GetBmiCategory(double bmi) const {
     if (bmi < 30.0) return "Избыточный вес";
     return "Ожирение";
 }
+
+std::string HealthAdvisor::GetPulseCategory(int pulse) const {
+    if (pulse < 60) return "Низкий пульс";
+    if (pulse <= 100) return "Нормальный пульс";
+    return "Высокий пульс";
+}
