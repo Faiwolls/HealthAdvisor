@@ -54,5 +54,22 @@ namespace HealthAdvisorTests
             Assert::AreEqual("Гипертония 1-й степени", advisor.GetPressureCategory(140, 90).c_str());
             Assert::AreEqual("Гипертония 2-й степени", advisor.GetPressureCategory(160, 100).c_str());
         }
+
+        TEST_METHOD(StepsRecommendation)
+        {
+            HealthAdvisor advisor;
+            Assert::AreEqual(10000, advisor.GetStepsRecommendation("Нормальный вес", "Нормальный пульс", "Нормальное давление"));
+            Assert::AreEqual(9500, advisor.GetStepsRecommendation("Ожирение", "Высокий пульс", "Гипертония 1-й степени"));
+        }
+
+        TEST_METHOD(WeightLossRecommendation)
+        {
+            HealthAdvisor advisor;
+            Assert::AreEqual(18.7, advisor.GetWeightLossRecommendation(90.0, 1.80), 0.1);
+            bool needGain = false;
+            double delta = advisor.GetWeightLossRecommendation(60.0, 1.65, &needGain);
+            Assert::IsFalse(needGain);
+            Assert::AreEqual(0.105, delta, 0.1);
+        }
     };
 }

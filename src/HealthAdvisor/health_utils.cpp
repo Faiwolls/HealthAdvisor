@@ -27,3 +27,28 @@ std::string HealthAdvisor::GetPressureCategory(int systolic, int diastolic) cons
         return "Гипертония 1-й степени";
     return "Гипертония 2-й степени";
 }
+
+int HealthAdvisor::GetStepsRecommendation(const std::string& bmiCat, const std::string& pulseCat, const std::string& pressureCat) const {
+    int steps = 10000;
+    if (bmiCat == "Недостаточный вес") steps -= 1000;
+    else if (bmiCat == "Избыточный вес") steps += 2000;
+    else if (bmiCat == "Ожирение") steps += 3000;
+
+    if (pulseCat == "Низкий пульс") steps += 500;
+    else if (pulseCat == "Высокий пульс") steps -= 2000;
+
+    if (pressureCat == "Пониженное давление") steps -= 1000;
+    else if (pressureCat == "Предгипертония" || pressureCat.find("Гипертония") != std::string::npos)
+        steps -= 1500;
+
+    return steps > 0 ? steps : 0;
+}
+
+double HealthAdvisor::GetWeightLossRecommendation(double weightKg, double heightM, bool* needGain) const {
+    const double targetBMI = 22.0;
+    double targetWeight = targetBMI * heightM * heightM;
+    double diff = weightKg - targetWeight;
+    if (needGain) *needGain = (diff < 0.0);
+    return std::abs(diff);
+}
+
