@@ -42,5 +42,17 @@ namespace HealthAdvisorTests
             Assert::AreEqual("Нормальный пульс", advisor.GetPulseCategory(100).c_str());
             Assert::AreEqual("Высокий пульс", advisor.GetPulseCategory(101).c_str());
         }
+
+        TEST_METHOD(PressureCategory)
+        {
+            HealthAdvisor advisor;
+            Assert::AreEqual("Пониженное давление", advisor.GetPressureCategory(80, 50).c_str());
+            Assert::AreEqual("Нормальное давление", advisor.GetPressureCategory(90, 60).c_str());
+            Assert::AreEqual("Нормальное давление", advisor.GetPressureCategory(119, 79).c_str());
+            Assert::AreEqual("Предгипертония", advisor.GetPressureCategory(120, 80).c_str());
+            Assert::AreEqual("Предгипертония", advisor.GetPressureCategory(139, 89).c_str());
+            Assert::AreEqual("Гипертония 1-й степени", advisor.GetPressureCategory(140, 90).c_str());
+            Assert::AreEqual("Гипертония 2-й степени", advisor.GetPressureCategory(160, 100).c_str());
+        }
     };
 }

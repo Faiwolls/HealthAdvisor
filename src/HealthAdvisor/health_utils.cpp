@@ -16,3 +16,14 @@ std::string HealthAdvisor::GetPulseCategory(int pulse) const {
     if (pulse <= 100) return "Нормальный пульс";
     return "Высокий пульс";
 }
+
+std::string HealthAdvisor::GetPressureCategory(int systolic, int diastolic) const {
+    if (systolic < 90 && diastolic < 60) return "Пониженное давление";
+    if (systolic >= 90 && systolic <= 119 && diastolic >= 60 && diastolic <= 79)
+        return "Нормальное давление";
+    if ((systolic >= 120 && systolic <= 139) || (diastolic >= 80 && diastolic <= 89))
+        return "Предгипертония";
+    if ((systolic >= 140 && systolic <= 159) || (diastolic >= 90 && diastolic <= 99))
+        return "Гипертония 1-й степени";
+    return "Гипертония 2-й степени";
+}
