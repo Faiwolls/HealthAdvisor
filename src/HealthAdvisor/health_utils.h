@@ -11,5 +11,5 @@ public:
     std::string GetPulseCategory(int pulse) const;
     std::string GetPressureCategory(int systolic, int diastolic) const;
     int GetStepsRecommendation(const std::string& bmiCat, const std::string& pulseCat, const std::string& pressureCat) const;
-    double GetWeightLossRecommendation(double weightKg, double heightM, bool* needGain = nullptr) const;
+    double GetWeightLossRecommendation(double weightKg, double heightM, bool& needGain) const;
 };

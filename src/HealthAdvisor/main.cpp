@@ -156,7 +156,7 @@ int main() {
 			}
 
 			steps = advisor.GetStepsRecommendation(bmiCat, pulseCat, pressureCat);
-			weightDelta = advisor.GetWeightLossRecommendation(weight, height, &needGain);
+			weightDelta = advisor.GetWeightLossRecommendation(weight, height, needGain);
 
 			std::cout << "\nРезультаты:\n";
 			std::cout << "ИМТ: " << bmi << " - " << bmiCat << " (Вес: " << weight << ". Рост: " << height << ")\n";

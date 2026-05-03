@@ -66,13 +66,19 @@ namespace HealthAdvisorTests
         TEST_METHOD(WeightLossRecommendation)
         {
             HealthAdvisor advisor;
-            Assert::AreEqual(18.7, advisor.GetWeightLossRecommendation(90.0, 1.80), 0.1);
-            bool needGain = false;
-            double delta = advisor.GetWeightLossRecommendation(60.0, 1.65, &needGain);
-            Assert::IsFalse(needGain);
-            Assert::AreEqual(0.105, delta, 0.1);
-        }
 
+            // Первый вызов: 90 кг, 1.80 м – вес избыточный, разница положительная
+            bool needGain1 = true;   // начальное значение не важно, но для проверки установим
+            double delta1 = advisor.GetWeightLossRecommendation(90.0, 1.80, needGain1);
+            Assert::AreEqual(18.7, delta1, 0.1);
+            Assert::IsFalse(needGain1);   // diff > 0 => сбрасывать
+
+            // Второй вызов: 60 кг, 1.65 м – вес почти нормальный, но чуть выше целевого
+            bool needGain2 = false;
+            double delta2 = advisor.GetWeightLossRecommendation(60.0, 1.65, needGain2);
+            Assert::IsFalse(needGain2);   // diff = 0.105 > 0 => сбрасывать, а не набирать
+            Assert::AreEqual(0.105, delta2, 0.1);
+        }
         TEST_METHOD(CalculateBMI_ExtremeValues)
         {
             HealthAdvisor advisor;

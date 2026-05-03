@@ -44,11 +44,10 @@ int HealthAdvisor::GetStepsRecommendation(const std::string& bmiCat, const std::
     return steps > 0 ? steps : 0;
 }
 
-double HealthAdvisor::GetWeightLossRecommendation(double weightKg, double heightM, bool* needGain) const {
+double HealthAdvisor::GetWeightLossRecommendation(double weightKg, double heightM, bool& needGain) const {
     const double targetBMI = 22.0;
     double targetWeight = targetBMI * heightM * heightM;
     double diff = weightKg - targetWeight;
-    if (needGain) *needGain = (diff < 0.0);
+    needGain = (diff < 0.0);   
     return std::abs(diff);
 }
-
