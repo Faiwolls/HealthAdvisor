@@ -7,6 +7,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace HealthAdvisorTests
 {
+
     TEST_CLASS(HealthAdvisorTest)
     {
     public:
@@ -70,6 +71,33 @@ namespace HealthAdvisorTests
             double delta = advisor.GetWeightLossRecommendation(60.0, 1.65, &needGain);
             Assert::IsFalse(needGain);
             Assert::AreEqual(0.105, delta, 0.1);
+        }
+
+        TEST_METHOD(CalculateBMI_ExtremeValues)
+        {
+            HealthAdvisor advisor;
+            // Очень большой вес при маленьком росте
+            Assert::AreEqual(800.0, advisor.CalculateBMI(200.0, 0.5), 1.0);
+            // Минимальные значения, но не нулевой рост
+            Assert::AreEqual(20.0, advisor.CalculateBMI(0.2, 0.1), 0.1);
+        }
+
+        TEST_METHOD(PulseCategoryExtreme)
+        {
+            HealthAdvisor advisor;
+            Assert::AreEqual("Низкий пульс", advisor.GetPulseCategory(30).c_str());
+            Assert::AreEqual("Высокий пульс", advisor.GetPulseCategory(200).c_str());
+        }
+
+        TEST_METHOD(StepsRecommendationVaried)
+        {
+            HealthAdvisor advisor;
+            // Недостаточный вес + нормальный пульс + нормальное давление → 9000
+            Assert::AreEqual(9000, advisor.GetStepsRecommendation("Недостаточный вес", "Нормальный пульс", "Нормальное давление"));
+            // Избыточный вес + низкий пульс + пониженное давление → 11500
+            Assert::AreEqual(11500, advisor.GetStepsRecommendation("Избыточный вес", "Низкий пульс", "Пониженное давление"));
+            // Нормальный вес + высокий пульс + предгипертония → 6500
+            Assert::AreEqual(6500, advisor.GetStepsRecommendation("Нормальный вес", "Высокий пульс", "Предгипертония"));
         }
     };
 }
